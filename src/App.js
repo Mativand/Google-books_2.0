@@ -43,13 +43,15 @@ function App() {
     }
 
     const sortOnCategory = (category) => {
-        if (category === 'All') console.log('all')
+        // if (result.length === 0){
+        //     getData()
+        // }
         setSelectedCategory(category);
-        setResult(result.filter(e => {
+        setResult(relevanceData.filter(e => {
                 if (e.volumeInfo.categories === undefined) {
                     return false
                 } else if (category === 'All') {
-                    return true
+                    return  true
                 } else {
                     return e.volumeInfo.categories[0] === category
                 }
@@ -64,6 +66,7 @@ function App() {
     //         sortOnCategory()
     //     }, [selectedCategory]
     // )
+
 
     return (
         <div className="App">
