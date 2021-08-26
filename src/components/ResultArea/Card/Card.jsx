@@ -2,6 +2,7 @@ import React from 'react';
 import s from './Card.module.css'
 
 const Card = ({bookInfo}) => {
+
     return (
         <div className={s.wrapper}>
             <div className={s.container}>
