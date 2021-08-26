@@ -3,21 +3,27 @@ import './App.css';
 import SearchArea from "./components/SearchArea/SearchArea";
 import ResultArea from "./components/ResultArea/ResultArea";
 import axios from "axios";
+import ModalWindow from "./components/ModalWindow/ModalWindow";
+import DetailDesc from "./components/DetailDesc/DetailDesc";
 
 function App() {
 
     const [value, setValue] = useState('')
     const [result, setResult] = useState([])
-    const [selectedSort, setSelectedSort] = useState('')
+    const [selectedSort, setSelectedSort] = useState('relevance')
     const [selectedCategory, setSelectedCategory] = useState('')
-    const [defaultData, setDefaultData] = useState([])
     const [categorySearch, setCategorySearch] = useState('')
     const [indexPagination, setIndexPagination] = useState('0')
+    const [modal, setModal] = useState(false)
+    const [currentBook, setCurrentBook] = useState([])
+    const [isBooksLoading, setIsBooksLoading] = useState(false)
+
     const apiKey = 'AIzaSyAuf9NwMBBwgQYKZprb_HwRGqdwNG5Hvtg'
 
     function handleSubmit(event) {
         event.preventDefault();
         getData();
+        console.log(result)
     }
 
     function handleChange(event) {
@@ -26,9 +32,9 @@ function App() {
     }
 
     const reloadBooks = () => {
-        console.log('bla')
         setIndexPagination(String(Number(indexPagination) + 30))
         getData('execute')
+
     }
 
     const sortOnCategory = (category) => {
@@ -40,34 +46,31 @@ function App() {
         }
     }
 
+    const sortOnType = (sort) => setSelectedSort(sort);
+
     function getData(pagination) {
-        axios.get("https://www.googleapis.com/books/v1/volumes?q=" + value + "+subject:" + categorySearch + "&key=" + apiKey + "&startIndex=" + indexPagination + "&maxResults=30")
+        setIsBooksLoading(true)
+        axios.get("https://www.googleapis.com/books/v1/volumes?q=" + value + "+subject:" + categorySearch + "&orderBy=" + selectedSort + "&key=" + apiKey + "&startIndex=" + indexPagination + "&maxResults=30")
             .then(data => {
                 data.data.items.map((book) => {
                     if (book.volumeInfo.hasOwnProperty('imageLinks') === false) {
-                        book.volumeInfo['imageLinks'] = {smallThumbnail: "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"};
+                        book.volumeInfo['imageLinks'] = {thumbnail: "https://w7.pngwing.com/pngs/388/487/png-transparent-computer-icons-graphy-img-landscape-graphy-icon-miscellaneous-angle-text.png"};
                     }
                     return book;
                 })
                 if (pagination === 'execute') {
-                    console.log('blblbll')
                     setResult([...result, ...data.data.items])
                 } else {
                     setResult(data.data.items)
-                    setDefaultData(data.data.items)
                 }
             })
+            .catch((e) => console.log(e))
+        setIsBooksLoading(false)
     }
 
-    const sortOnType = (sort) => {
-        setSelectedSort(sort);
-        if (sort === 'newest') {
-            setResult([...result].sort((a, b) => {
-                return parseInt(b.volumeInfo.publishedDate.substring(0, 4), 10) - parseInt(a.volumeInfo.publishedDate.substring(0, 4), 10)
-            }))
-        } else if (sort === 'relevance') {
-            setResult(defaultData)
-        }
+    const handData = (data) => {
+        console.log(data)
+        setCurrentBook(data)
     }
 
     return (
@@ -93,10 +96,19 @@ function App() {
                     {value: 'Poetry', name: 'poetry'},
                 ]}
             />
-            <ResultArea
-                books={result}
+            <ResultArea books={result}
+                        setModal={setModal}
+                        handData={handData}
+                        reloadBooks={reloadBooks}
+                        isBooksLoading={isBooksLoading}
             />
-            <button onClick={reloadBooks}>reload books</button>
+
+            <ModalWindow visible={modal} setVisible={setModal}>
+                {currentBook.length === 0
+                    ? <div> </div>
+                    :  <DetailDesc data={currentBook}/>}
+            </ModalWindow>
+
         </div>
     );
 }
