@@ -11,7 +11,7 @@ const Form = ({value, handleChange, handleSubmit}) => {
                 value={value}
                 onChange={handleChange}
             />
-            <button  className={s.button}>start</button>
+            <button  className={s.button}>Search</button>
         </form>
     );
 };

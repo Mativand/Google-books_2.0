@@ -1,8 +1,10 @@
 import React from 'react';
+import s from './SortOnCategory.module.css'
 
 const SortOnCategory = ({optionsCategory, valueCategory, onChangeCategory}) => {
     return (
         <select
+            className={s.select}
             value={valueCategory}
             onChange={event => onChangeCategory(event.target.value)}
         >

@@ -5,6 +5,7 @@ import ResultArea from "./components/ResultArea/ResultArea";
 import axios from "axios";
 import ModalWindow from "./components/ModalWindow/ModalWindow";
 import DetailDesc from "./components/DetailDesc/DetailDesc";
+import Loader from "./components/Loader/Loader";
 
 function App() {
 
@@ -23,7 +24,6 @@ function App() {
     function handleSubmit(event) {
         event.preventDefault();
         getData();
-        console.log(result)
     }
 
     function handleChange(event) {
@@ -34,7 +34,6 @@ function App() {
     const reloadBooks = () => {
         setIndexPagination(String(Number(indexPagination) + 30))
         getData('execute')
-
     }
 
     const sortOnCategory = (category) => {
@@ -65,7 +64,7 @@ function App() {
                 }
             })
             .catch((e) => console.log(e))
-        setIsBooksLoading(false)
+            .then(() => setIsBooksLoading(false))
     }
 
     const handData = (data) => {
@@ -96,6 +95,12 @@ function App() {
                     {value: 'Poetry', name: 'poetry'},
                 ]}
             />
+            {
+                isBooksLoading
+                    ? <Loader/>
+                    :<div></div>
+            }
+
             <ResultArea books={result}
                         setModal={setModal}
                         handData={handData}
@@ -105,8 +110,8 @@ function App() {
 
             <ModalWindow visible={modal} setVisible={setModal}>
                 {currentBook.length === 0
-                    ? <div> </div>
-                    :  <DetailDesc data={currentBook}/>}
+                    ? <div></div>
+                    : <DetailDesc data={currentBook}/>}
             </ModalWindow>
 
         </div>

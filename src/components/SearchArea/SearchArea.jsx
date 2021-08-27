@@ -16,7 +16,7 @@ const SearchArea = ({
                     }) => {
     return (
         <div className={s.area}>
-            areaSearch
+            <h1 className={s.title}>Google-books</h1>
             <Form value={value}
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
