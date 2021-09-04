@@ -1,12 +1,12 @@
 import React from 'react';
-import SortOrder from "./SortOrder/SortOrder";
 import SortOnCategoryContainer from "./SortOnCategory/SortOnCategoryContainer";
+import SortOrderContainer from "./SortOrder/SortOrderContainer";
 
 const Filter = () => {
     return (
         <div>
             <SortOnCategoryContainer/>
-            <SortOrder/>
+            <SortOrderContainer/>
         </div>
     );
 };
