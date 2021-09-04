@@ -1,18 +1,12 @@
 import React from 'react';
-import SortOnCategory from "./SortOnCategory/SortOnCategory";
-import SortOnType from "./SortOnType/SortOnType";
+import SortOrder from "./SortOrder/SortOrder";
+import SortOnCategoryContainer from "./SortOnCategory/SortOnCategoryContainer";
 
-const Filter = ({optionsType, optionsCategory, valueSort, valueCategory, onChange, onChangeCategory}) => {
+const Filter = () => {
     return (
         <div>
-            <SortOnCategory
-                optionsCategory={optionsCategory}
-                valueCategory={valueCategory}
-                onChangeCategory={onChangeCategory}/>
-            <SortOnType
-                optionsType={optionsType}
-                valueSort={valueSort}
-                onChange={onChange}/>
+            <SortOnCategoryContainer/>
+            <SortOrder/>
         </div>
     );
 };

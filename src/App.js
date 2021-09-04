@@ -6,18 +6,19 @@ import axios from "axios";
 import ModalWindow from "./components/ModalWindow/ModalWindow";
 import DetailDesc from "./components/DetailDesc/DetailDesc";
 import Loader from "./components/Loader/Loader";
+import {useSelector} from "react-redux";
 
 function App() {
 
     const [value, setValue] = useState('')
     const [result, setResult] = useState([])
-    const [selectedSort, setSelectedSort] = useState('relevance')
-    const [selectedCategory, setSelectedCategory] = useState('')
-    const [categorySearch, setCategorySearch] = useState('')
     const [indexPagination, setIndexPagination] = useState('0')
     const [modal, setModal] = useState(false)
     const [currentBook, setCurrentBook] = useState([])
     const [isBooksLoading, setIsBooksLoading] = useState(false)
+
+    const order = useSelector(state => state.sort.order)
+    const category = useSelector(state => state.sort.category)
 
     const apiKey = 'AIzaSyAuf9NwMBBwgQYKZprb_HwRGqdwNG5Hvtg'
 
@@ -36,20 +37,19 @@ function App() {
         getData('execute')
     }
 
-    const sortOnCategory = (category) => {
-        setSelectedCategory(category);
-        if (category === 'All' || category === undefined) {
-            setCategorySearch('')
-        } else {
-            setCategorySearch(category)
-        }
-    }
+    // const sortOnCategory = (category) => {
+    //     setSelectedCategory(category);
+    //     if (category === 'All' || category === undefined) {
+    //         setCategorySearch('')
+    //     } else {
+    //         setCategorySearch(category)
+    //     }
+    // }
 
-    const sortOnType = (sort) => setSelectedSort(sort);
 
     function getData(pagination) {
         setIsBooksLoading(true)
-        axios.get("https://www.googleapis.com/books/v1/volumes?q=" + value + "+subject:" + categorySearch + "&orderBy=" + selectedSort + "&key=" + apiKey + "&startIndex=" + indexPagination + "&maxResults=30")
+        axios.get("https://www.googleapis.com/books/v1/volumes?q=" + value + "+subject:" + category + "&orderBy=" + order + "&key=" + apiKey + "&startIndex=" + indexPagination + "&maxResults=30")
             .then(data => {
                 data.data.items.map((book) => {
                     if (book.volumeInfo.hasOwnProperty('imageLinks') === false) {
@@ -76,23 +76,11 @@ function App() {
         <div className="App">
             <SearchArea
                 value={value}
-                valueSort={selectedSort}
-                valueCategory={selectedCategory}
-                onChange={sortOnType}
-                onChangeCategory={sortOnCategory}
                 setValue={setValue}
                 handleSubmit={handleSubmit}
                 handleChange={handleChange}
                 optionsType={[
                     {value: 'newest', name: 'newest'},
-                ]}
-                optionsCategory={[
-                    {value: 'Art', name: 'art'},
-                    {value: 'Biography', name: 'biography'},
-                    {value: 'Computers', name: 'computers'},
-                    {value: 'History', name: 'history'},
-                    {value: 'Medical', name: 'medical'},
-                    {value: 'Poetry', name: 'poetry'},
                 ]}
             />
             {

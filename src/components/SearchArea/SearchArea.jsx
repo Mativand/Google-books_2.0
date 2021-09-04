@@ -7,12 +7,6 @@ const SearchArea = ({
                         value,
                         handleChange,
                         handleSubmit,
-                        optionsType,
-                        optionsCategory,
-                        valueSort,
-                        onChange,
-                        onChangeCategory,
-                        valueCategory,
                     }) => {
     return (
         <div className={s.area}>
@@ -21,14 +15,7 @@ const SearchArea = ({
                   handleChange={handleChange}
                   handleSubmit={handleSubmit}
             />
-            <Filter
-                optionsType={optionsType}
-                valueSort={valueSort}
-                valueCategory={valueCategory}
-                onChange={onChange}
-                onChangeCategory={onChangeCategory}
-                optionsCategory={optionsCategory}
-            />
+            <Filter/>
         </div>
     );
 };

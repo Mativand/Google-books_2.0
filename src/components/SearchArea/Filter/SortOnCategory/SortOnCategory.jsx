@@ -1,14 +1,13 @@
 import React from 'react';
 import s from './SortOnCategory.module.css'
 
-const SortOnCategory = ({optionsCategory, valueCategory, onChangeCategory}) => {
+const SortOnCategory = ({optionsCategory, changeCategory}) => {
     return (
         <select
+            defaultValue="All"
             className={s.select}
-            value={valueCategory}
-            onChange={event => onChangeCategory(event.target.value)}
+            onChange={event => changeCategory(event.target.value)}
         >
-            <option value="All">all</option>
             {optionsCategory.map(option =>
                 <option key={option.value} value={option.value}>
                     {option.name}
