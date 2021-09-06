@@ -10,7 +10,6 @@ import {useSelector} from "react-redux";
 
 function App() {
 
-    const [value, setValue] = useState('')
     const [result, setResult] = useState([])
     const [indexPagination, setIndexPagination] = useState('0')
     const [modal, setModal] = useState(false)
@@ -19,6 +18,8 @@ function App() {
 
     const order = useSelector(state => state.sort.order)
     const category = useSelector(state => state.sort.category)
+    const inputValue = useSelector(state => state.sort.value)
+
 
     const apiKey = 'AIzaSyAuf9NwMBBwgQYKZprb_HwRGqdwNG5Hvtg'
 
@@ -27,29 +28,16 @@ function App() {
         getData();
     }
 
-    function handleChange(event) {
-        const value = event.target.value;
-        setValue(value);
-    }
 
     const reloadBooks = () => {
         setIndexPagination(String(Number(indexPagination) + 30))
         getData('execute')
     }
 
-    // const sortOnCategory = (category) => {
-    //     setSelectedCategory(category);
-    //     if (category === 'All' || category === undefined) {
-    //         setCategorySearch('')
-    //     } else {
-    //         setCategorySearch(category)
-    //     }
-    // }
-
 
     function getData(pagination) {
         setIsBooksLoading(true)
-        axios.get("https://www.googleapis.com/books/v1/volumes?q=" + value + "+subject:" + category + "&orderBy=" + order + "&key=" + apiKey + "&startIndex=" + indexPagination + "&maxResults=30")
+        axios.get("https://www.googleapis.com/books/v1/volumes?q=" + inputValue + "+subject:" + category + "&orderBy=" + order + "&key=" + apiKey + "&startIndex=" + indexPagination + "&maxResults=30")
             .then(data => {
                 data.data.items.map((book) => {
                     if (book.volumeInfo.hasOwnProperty('imageLinks') === false) {
@@ -75,13 +63,7 @@ function App() {
     return (
         <div className="App">
             <SearchArea
-                value={value}
-                setValue={setValue}
                 handleSubmit={handleSubmit}
-                handleChange={handleChange}
-                optionsType={[
-                    {value: 'newest', name: 'newest'},
-                ]}
             />
             {
                 isBooksLoading
