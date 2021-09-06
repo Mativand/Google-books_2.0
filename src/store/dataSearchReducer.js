@@ -3,13 +3,15 @@ const defaultState = {
     order: 'relevance',
     category: '',
     value: '',
+
 }
 
 const SORT_ON_ORDER = "SORT_ON_ORDER"
 const SORT_ON_CATEGORY = "SORT_ON_CATEGORY"
 const CHANGE_VALUE = "CHANGE_VALUE"
 
-export const sortReducer = (state = defaultState, action) => {
+
+export const dataSearchReducer = (state = defaultState, action) => {
     switch (action.type) {
         case "SORT_ON_ORDER":
             return {...state, order: action.payload}
@@ -17,6 +19,7 @@ export const sortReducer = (state = defaultState, action) => {
             return {...state, category: action.payload}
         case "CHANGE_VALUE":
             return {...state, value: action.payload}
+
     }
     return state
 }

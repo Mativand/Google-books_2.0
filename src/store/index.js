@@ -1,9 +1,12 @@
-import {combineReducers, createStore} from 'redux'
-import {sortReducer} from "./sortReducer";
-
+import {applyMiddleware, combineReducers, createStore} from 'redux'
+import {dataSearchReducer} from "./dataSearchReducer";
+import {composeWithDevTools} from "redux-devtools-extension";
+import thunk from "redux-thunk";
+import {dataResultReducer} from "./dataResultReducer";
 
 const rootReducer = combineReducers({
-    sort: sortReducer,
+    search: dataSearchReducer,
+    result: dataResultReducer,
 })
 
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)))

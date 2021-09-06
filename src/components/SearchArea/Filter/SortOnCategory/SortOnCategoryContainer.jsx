@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {changeSortCategoryAction} from "../../../../store/sortReducer";
+import {changeSortCategoryAction} from "../../../../store/dataSearchReducer";
 import SortOnCategory from "./SortOnCategory";
 
 const SortOnCategoryContainer = () => {

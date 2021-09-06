@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from "react-redux";
-import {changeSortOrderAction} from "../../../../store/sortReducer";
+import {changeSortOrderAction} from "../../../../store/dataSearchReducer";
 import SortOrder from "./SortOrder";
 
 const SortOrderContainer = () => {

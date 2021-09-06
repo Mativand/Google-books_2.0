@@ -9,7 +9,7 @@ const SortOrder = ({optionsOrder, changeOrder}) => {
             className={s.select}
         >
             {optionsOrder.map(option =>
-                <option value={option.value}>{option.value}</option>
+                <option key={option.value} value={option.value}>{option.value}</option>
             )}
         </select>
     );

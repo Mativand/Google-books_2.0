@@ -1,15 +1,25 @@
-import React from 'react';
+import React, {useState} from 'react';
 import s from './Form.module.css'
 import {useDispatch, useSelector} from "react-redux";
-import {changeValueAction} from "../../../store/sortReducer";
+import {changeValueAction} from "../../../store/dataSearchReducer";
+import {fetchBooks} from "../../../API/booksService";
 
-const Form = ({handleSubmit}) => {
+const Form = () => {
 
-    const value = useSelector(state => state.sort.value)
+    const value = useSelector(state => state.search.value)
+    const order = useSelector(state => state.search.order)
+    const category = useSelector(state => state.search.category)
+    const indexPagination = useSelector(state => state.result.indexPagination)
+
     const dispatch = useDispatch()
 
     const onInputChange = (text) => {
         dispatch(changeValueAction(text))
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        dispatch(fetchBooks(value, category, order, indexPagination));
     }
 
     return (
