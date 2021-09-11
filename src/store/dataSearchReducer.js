@@ -19,7 +19,7 @@ export const dataSearchReducer = (state = defaultState, action) => {
             return {...state, category: action.payload}
         case "CHANGE_VALUE":
             return {...state, value: action.payload}
-
+        default:
     }
     return state
 }

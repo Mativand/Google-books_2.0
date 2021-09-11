@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import s from './Form.module.css'
 import {useDispatch, useSelector} from "react-redux";
 import {changeValueAction} from "../../../store/dataSearchReducer";
@@ -9,10 +9,9 @@ const Form = () => {
     const value = useSelector(state => state.search.value)
     const order = useSelector(state => state.search.order)
     const category = useSelector(state => state.search.category)
-    const indexPagination = useSelector(state => state.result.indexPagination)
+    const indexPagination = '0'
 
     const dispatch = useDispatch()
-
     const onInputChange = (text) => {
         dispatch(changeValueAction(text))
     }
